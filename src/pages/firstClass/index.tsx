@@ -103,7 +103,7 @@ class FirstClass extends Component<any,any> {
                         type:false
                     })
                 }} >添加</Button>
-                <Table columns={this.columns} dataSource={dataSouce}/>
+                <Table columns={this.columns} dataSource={dataSouce} rowKey={'first_classification_id'}/>
                 <Modal
                     visible={visible}
                     footer={false}

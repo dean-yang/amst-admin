@@ -88,7 +88,7 @@ function SecondsPro() {
                     setVisible(true)
                     setType(false)
                 }} >添加</Button>
-            <Table columns={columns} dataSource={dataSouce}/>
+            <Table columns={columns} dataSource={dataSouce} rowKey={`second_classification_id`}/>
             <Modal
                 visible={visible}
                 title={`${type ? '修改产品' : '添加产品'}`}
@@ -129,8 +129,8 @@ function SecondsPro() {
                     </Form.Item>
                     <Form.Item 
                     name="second_classification_name" 
-                    label="banner名称" 
-                    rules={[{ required: true,message:"请填写分类名称" }]}>
+                    label="产品名称" 
+                    rules={[{ required: true,message:"请填写产品名称" }]}>
                     <Input />
                     </Form.Item>
                     <Form.Item

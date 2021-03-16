@@ -12,7 +12,7 @@ const Routes = () => {
                             <Route path={item.path} component={item.components} key={item.path} />
                         ))
                     }
-                    <Redirect to={'/login'} from={localStorage.getItem('token') ? '/firstPro' : '/'} />
+                    <Redirect to={localStorage.getItem('token') ? '/firstPro'  : '/login'} from={'/'} />
                 </Switch>
             </HashRouter>
         </AmstLayout>
