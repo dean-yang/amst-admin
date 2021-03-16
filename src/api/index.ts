@@ -17,6 +17,7 @@ const api = {
     getsecondClassification:'/secondClassification/get',
     deletesecondClassification:'/secondClassification/delete',
     updatesecondClassification:'/secondClassification/update',
+    
 
 }
 export default api
