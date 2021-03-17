@@ -1,4 +1,6 @@
 const api = {
+
+    adress:'http://localhost:3000/admin', // ip地址
     login:'/login',
     // 一级分类
     getfirstClassification:'/firstClassification/get',
@@ -17,7 +19,13 @@ const api = {
     getsecondClassification:'/secondClassification/get',
     deletesecondClassification:'/secondClassification/delete',
     updatesecondClassification:'/secondClassification/update',
-    
+
+
+    // 精选
+    setcarefullyChosen:'/carefullyChosen/set',
+    getcarefullyChosen:'/carefullyChosen/get',
+    updatecarefullyChosen:'/carefullyChosen/update',
+    deletecarefullyChosen:'/carefullyChosen/delete',
 
 }
 export default api

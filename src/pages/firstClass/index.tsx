@@ -109,8 +109,10 @@ class FirstClass extends Component<any,any> {
                     footer={false}
                     onCancel={()=>{this.setState({visible:false})}}
                     title={'添加一级分类'}
+                    destroyOnClose
+                    
                 >
-                 <Form ref={this.formRef} name="control-ref" onFinish={this.onFinish}>
+                 <Form ref={this.formRef} name="control-ref" onFinish={this.onFinish} preserve={false}>
                     {
                         type && <Form.Item
                                     name={'first_classification_id'}

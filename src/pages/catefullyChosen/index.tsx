@@ -4,42 +4,49 @@ import fetch from '../../services/axios'
 import api from '../../api'
 
 
-function SecondsPro() {
+function CatefullyChosen() {
     const [form] = Form.useForm();
     const [visible,setVisible] = useState(false)
     const [type,setType] = useState(false)
-    const [firstClass,setFirstClass] = useState([])
+    const [secondsPro,setSecondsPro] = useState([])
     const [dataSouce,setDataSouce] = useState([])
     useEffect(() => {
-        getfirstClassification()
+        getcarefullyChosen()
         getsecondClassification()
     }, [])
-    const getfirstClassification = ()=>{
-        fetch.post(api.getfirstClassification,{}).then((res:any)=>{
-            setFirstClass(res.data)
-        })
-    }
     const getsecondClassification = ()=>{
         fetch.post(api.getsecondClassification,{}).then((res:any)=>{
+            console.log(res.data)
+            setSecondsPro(res.data)
+        })
+    }
+    const getcarefullyChosen = ()=>{
+        fetch.post(api.getcarefullyChosen,{}).then((res:any)=>{
             setDataSouce(res.data)
         }) 
     }
     const columns = [
         {
-            title:"关联一级分类id",
-            dataIndex:"first_classification_id",
-        },{
-            title:"关联一级分类名字",
-            dataIndex:"first_classification_name",
-        },{
-            title:"id",
+            title:"关联二级分类id",
             dataIndex:"second_classification_id",
         },{
-            title:"产品名字",
+            title:"关联二级分类名字",
             dataIndex:"second_classification_name",
         },{
-            title:"产品图片",
-            dataIndex:"second_classification_image_url",
+            title:"id",
+            dataIndex:"carefullyChosen_id",
+        },{
+            title:"名字",
+            dataIndex:"carefullyChosen_name",
+        },{
+            title:"描述",
+            dataIndex:"carefullyChosen_desc",
+        },{
+            title:"价格(起)",
+            dataIndex:"carefullyChosen_price",
+        },{
+            title:"图片",
+            dataIndex:"carefullyChosen_image_url",
             render:(text:string) => (
                 <Image src={text} width={100} height={100}/>
             )
@@ -62,21 +69,22 @@ function SecondsPro() {
         form.setFieldsValue(record)
     }
     const  clickHandleDelete = (record:any)=>{
-        fetch.post(api.deletesecondClassification,record).then(()=>{
+        fetch.post(api.deletecarefullyChosen,record).then(()=>{
             message.success('删除成功')
-            getsecondClassification()
+            getcarefullyChosen()
         })
     }
     const onFinish = (value:any) => {
         if(type){
-            fetch.post(api.updatesecondClassification,value).then(()=>{
-                getsecondClassification()
+            console.log(value)
+            fetch.post(api.updatecarefullyChosen,value).then(()=>{
+                getcarefullyChosen()
                 message.success('修改成功')
                 setVisible(false)
             })
         }else{
-            fetch.post(api.setsecondClassification,value).then(() => {
-                getsecondClassification()
+            fetch.post(api.setcarefullyChosen,value).then(() => {
+                getcarefullyChosen()
                 message.success('插入成功')
                 setVisible(false)
             })
@@ -88,10 +96,10 @@ function SecondsPro() {
                     setVisible(true)
                     setType(false)
                 }} >添加</Button>
-            <Table columns={columns} dataSource={dataSouce} rowKey={`second_classification_id`}/>
+            <Table columns={columns} dataSource={dataSouce} rowKey={`carefullyChosen_id`}/>
             <Modal
                 visible={visible}
-                title={`${type ? '修改产品' : '添加产品'}`}
+                title={`${type ? '修改精选' : '添加精选'}`}
                 onCancel={()=>{
                     setVisible(false)
                 }}
@@ -101,7 +109,7 @@ function SecondsPro() {
                 <Form  name="control-ref" onFinish={onFinish} form={form} preserve={false}>
                     {
                         type  &&    <Form.Item 
-                                        name="second_classification_id" 
+                                        name="carefullyChosen_id" 
                                         label="id" 
                                         rules={[{ required: true,message:"无id不可修改" }]}>
                                         <Input disabled/>
@@ -109,34 +117,50 @@ function SecondsPro() {
                         
                     }
                     <Form.Item
-                        label="一级分类"
-                        name="first_classification_id"
-                        rules={[{ required: true, message: '必须选择一级分类' }]}
+                        label="二级产品"
+                        name="second_classification_id"
+                        rules={[{ required: true, message: '必须选择二级产品' }]}
                     >
                         <Select
                             allowClear
-                            placeholder={`请选择一级分类`}
+                            placeholder={`请选择二级产品`}
                         >
                             {
-                                firstClass.map((item:any)=>(
-                                    <Select.Option value={item.first_classification_id}>
+                                secondsPro.map((item:any)=>(
+                                    <Select.Option value={item.second_classification_id}>
                                         {
-                                            item.first_classification_name
+                                            item.second_classification_name
                                         }
                                     </Select.Option>
                                 ))
                             }
                         </Select>
                     </Form.Item>
+
                     <Form.Item 
-                    name="second_classification_name" 
-                    label="产品名称" 
-                    rules={[{ required: true,message:"请填写产品名称" }]}>
-                    <Input />
+                    name="carefullyChosen_name" 
+                    label="精选名称" 
+                    rules={[{ required: true,message:"请填写精选名称" }]}>
+                        <Input />
                     </Form.Item>
+
+                    <Form.Item 
+                    name="carefullyChosen_desc" 
+                    label="精选描述" 
+                    rules={[{ required: true,message:"请填写精选描述" }]}>
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item 
+                    name="carefullyChosen_price" 
+                    label="精选价格" 
+                    rules={[{ required: true,message:"请填写精选价格" }]}>
+                        <Input />
+                    </Form.Item>
+
                     <Form.Item
                         label="图片地址"
-                        name="second_classification_image_url"
+                        name="carefullyChosen_image_url"
                         rules={[{ required: true, message: '请上传图片' }]}
                     >
                         <Input disabled placeholder={`图片不能超过2m`}/>
@@ -145,14 +169,14 @@ function SecondsPro() {
                     <Form.Item>
                     <Upload 
                             accept={'image/png, image/jpeg, image/jpg'}
-                            action={'http://47.108.200.61:3000/admin/uploadImg/secondsPro'}
+                            action={api.adress + '/uploadImg/carefully'}
                             name="file"
                             method={'post'}
                             onChange={(info:any)=>{
                                 if(info.file.status === 'done' && info.file.response){
-                                    form.setFieldsValue({second_classification_image_url:info.file.response.data.url})
+                                    form.setFieldsValue({carefullyChosen_image_url:info.file.response.data.url})
                                 }  else if(info.file.status === 'removed'){
-                                    form.setFieldsValue({ second_classification_image_url:''});
+                                    form.setFieldsValue({ carefullyChosen_image_url:''});
                                 } 
                             }}
                             maxCount={1}
@@ -172,4 +196,5 @@ function SecondsPro() {
         </div>
     )
 }
-export default SecondsPro
+export default CatefullyChosen
+

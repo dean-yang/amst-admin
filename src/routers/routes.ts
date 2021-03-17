@@ -2,6 +2,7 @@ import FirstClass from '../pages/firstClass'
 import SecondsPro from '../pages/secondsPro'
 import Login from '../pages/login'
 import Banner from '../pages/baner'
+import catefullyChosen from '../pages/catefullyChosen'
 
 
 export const routes = [
@@ -18,5 +19,8 @@ export const routes = [
     },{
         path:'/banner',
         components:Banner
+    },{
+        path:'/catefullyChosen',
+        components:catefullyChosen
     }
 ]

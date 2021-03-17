@@ -10,7 +10,7 @@ class fetch {
       Loading.add()
       return new Promise((resolve,reject)=>{
         const instance = axios.create({
-          baseURL: 'http://47.108.200.61:3000/admin/',
+          baseURL: 'http://localhost:3000/admin/',
           timeout: 20000,
           headers: {'token': localStorage.getItem('token')}
         });

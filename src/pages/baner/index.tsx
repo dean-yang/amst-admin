@@ -82,9 +82,10 @@ function Banner(props:any) {
                     setVisible(false)
                 }}
                 footer={false}
+                destroyOnClose
             >
 
-            <Form  name="control-ref" onFinish={onFinish} form={form}>
+            <Form  name="control-ref" onFinish={onFinish} form={form} preserve={false}>
 
 
                  {

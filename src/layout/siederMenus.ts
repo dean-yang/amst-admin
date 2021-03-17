@@ -20,5 +20,10 @@ export const menus = [
         icon:SwitcherOutlined,
         name:"banner管理",
         url:"/banner"
+    },{
+        key:'/catefullyChosen',
+        icon:SwitcherOutlined,
+        name:"精选管理",
+        url:"/catefullyChosen"
     }
 ]
