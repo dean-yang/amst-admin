@@ -1,6 +1,6 @@
 const api = {
 
-    adress:'http://localhost:3000/admin', // ip地址
+    adress:'http://47.108.200.61:3000/admin', // ip地址
     login:'/login',
     // 一级分类
     getfirstClassification:'/firstClassification/get',
