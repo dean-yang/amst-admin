@@ -11,35 +11,35 @@ function SecondsPro() {
     const [firstClass,setFirstClass] = useState([])
     const [dataSouce,setDataSouce] = useState([])
     useEffect(() => {
-        getfirstClassification()
         getsecondClassification()
+        getchangeSeasonClean()
     }, [])
-    const getfirstClassification = ()=>{
-        fetch.post(api.getfirstClassification,{}).then((res:any)=>{
+    const getsecondClassification = ()=>{
+        fetch.post(api.getsecondClassification,{}).then((res:any)=>{
             setFirstClass(res.data)
         })
     }
-    const getsecondClassification = ()=>{
-        fetch.post(api.getsecondClassification,{}).then((res:any)=>{
+    const getchangeSeasonClean = ()=>{
+        fetch.post(api.getchangeSeasonClean,{}).then((res:any)=>{
             setDataSouce(res.data)
         }) 
     }
     const columns = [
         {
-            title:"关联一级分类id",
-            dataIndex:"first_classification_id",
-        },{
-            title:"关联一级分类名字",
-            dataIndex:"first_classification_name",
-        },{
-            title:"id",
+            title:"关联二级产品id",
             dataIndex:"second_classification_id",
         },{
-            title:"产品名字",
+            title:"关联二级产品名字",
             dataIndex:"second_classification_name",
         },{
-            title:"产品图片",
-            dataIndex:"second_classification_image_url",
+            title:"id",
+            dataIndex:"clean_changeSeason_id",
+        },{
+            title:"名字",
+            dataIndex:"clean_changeSeason_name",
+        },{
+            title:"换季清洗图片",
+            dataIndex:"clean_changeSeason_image_url",
             render:(text:string) => (
                 <Image src={text} width={100} height={100}/>
             )
@@ -62,21 +62,21 @@ function SecondsPro() {
         form.setFieldsValue(record)
     }
     const  clickHandleDelete = (record:any)=>{
-        fetch.post(api.deletesecondClassification,record).then(()=>{
+        fetch.post(api.deletechangeSeasonClean,record).then(()=>{
             message.success('删除成功')
-            getsecondClassification()
+            getchangeSeasonClean()
         })
     }
     const onFinish = (value:any) => {
         if(type){
-            fetch.post(api.updatesecondClassification,value).then(()=>{
-                getsecondClassification()
+            fetch.post(api.updatechangeSeasonClean,value).then(()=>{
+                getchangeSeasonClean()
                 message.success('修改成功')
                 setVisible(false)
             })
         }else{
-            fetch.post(api.setsecondClassification,value).then(() => {
-                getsecondClassification()
+            fetch.post(api.setchangeSeasonClean,value).then(() => {
+                getchangeSeasonClean()
                 message.success('插入成功')
                 setVisible(false)
             })
@@ -88,7 +88,7 @@ function SecondsPro() {
                     setVisible(true)
                     setType(false)
                 }} >添加</Button>
-            <Table columns={columns} dataSource={dataSouce} rowKey={`second_classification_id`}/>
+            <Table columns={columns} dataSource={dataSouce} rowKey={(record)=>record.clean_changeSeason_id}/>
             <Modal
                 visible={visible}
                 title={`${type ? '修改产品' : '添加产品'}`}
@@ -101,7 +101,7 @@ function SecondsPro() {
                 <Form  name="control-ref" onFinish={onFinish} form={form} preserve={false}>
                     {
                         type  &&    <Form.Item 
-                                        name="second_classification_id" 
+                                        name="clean_changeSeason_id" 
                                         label="id" 
                                         rules={[{ required: true,message:"无id不可修改" }]}>
                                         <Input disabled/>
@@ -109,19 +109,19 @@ function SecondsPro() {
                         
                     }
                     <Form.Item
-                        label="一级分类"
-                        name="first_classification_id"
-                        rules={[{ required: true, message: '必须选择一级分类' }]}
+                        label="二级产品"
+                        name="second_classification_id"
+                        rules={[{ required: true, message: '必须选择二级产品' }]}
                     >
                         <Select
                             allowClear
-                            placeholder={`请选择一级分类`}
+                            placeholder={`请选择二级产品`}
                         >
                             {
                                 firstClass.map((item:any)=>(
-                                    <Select.Option value={item.first_classification_id} key={item.first_classification_id}>
+                                    <Select.Option value={item.second_classification_id} key={item.second_classification_id}>
                                         {
-                                            item.first_classification_name
+                                            item.second_classification_name
                                         }
                                     </Select.Option>
                                 ))
@@ -129,14 +129,14 @@ function SecondsPro() {
                         </Select>
                     </Form.Item>
                     <Form.Item 
-                    name="second_classification_name" 
-                    label="产品名称" 
-                    rules={[{ required: true,message:"请填写产品名称" }]}>
+                    name="clean_changeSeason_name" 
+                    label="名称" 
+                    rules={[{ required: true,message:"请填写名称" }]}>
                     <Input />
                     </Form.Item>
                     <Form.Item
-                        label="图片地址"
-                        name="second_classification_image_url"
+                        label="换季清洗图片地址"
+                        name="clean_changeSeason_image_url"
                         rules={[{ required: true, message: '请上传图片' }]}
                     >
                         <Input disabled placeholder={`图片不能超过2m`}/>
@@ -150,9 +150,9 @@ function SecondsPro() {
                             method={'post'}
                             onChange={(info:any)=>{
                                 if(info.file.status === 'done' && info.file.response){
-                                    form.setFieldsValue({second_classification_image_url:info.file.response.data.url})
+                                    form.setFieldsValue({clean_changeSeason_image_url:info.file.response.data.url})
                                 }  else if(info.file.status === 'removed'){
-                                    form.setFieldsValue({ second_classification_image_url:''});
+                                    form.setFieldsValue({ clean_changeSeason_image_url:''});
                                 } 
                             }}
                             maxCount={1}

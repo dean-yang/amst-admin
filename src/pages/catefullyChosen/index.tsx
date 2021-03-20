@@ -127,7 +127,7 @@ function CatefullyChosen() {
                         >
                             {
                                 secondsPro.map((item:any)=>(
-                                    <Select.Option value={item.second_classification_id}>
+                                    <Select.Option value={item.second_classification_id} key={item.second_classification_id}>
                                         {
                                             item.second_classification_name
                                         }
@@ -169,7 +169,7 @@ function CatefullyChosen() {
                     <Form.Item>
                     <Upload 
                             accept={'image/png, image/jpeg, image/jpg'}
-                            action={api.adress + '/uploadImg/carefully'}
+                            action={'http://47.108.200.61:3000/admin/uploadImg'}
                             name="file"
                             method={'post'}
                             onChange={(info:any)=>{

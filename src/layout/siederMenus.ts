@@ -21,6 +21,11 @@ export const menus = [
         name:"banner管理",
         url:"/banner"
     },{
+        key:'/seasonClean',
+        icon:SwitcherOutlined,
+        name:"换季清洗管理",
+        url:"/seasonClean"
+    },{
         key:'/catefullyChosen',
         icon:SwitcherOutlined,
         name:"精选管理",

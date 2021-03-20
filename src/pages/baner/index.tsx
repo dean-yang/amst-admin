@@ -116,7 +116,7 @@ function Banner(props:any) {
                     <Form.Item>
                     <Upload 
                             accept={'image/png, image/jpeg, image/jpg'}
-                            action={'http://47.108.200.61:3000/admin/uploadImg/banner'}
+                            action={'http://47.108.200.61:3000/admin/uploadImg'}
                             name="file"
                             method={'post'}
                             onChange={(info:any)=>{

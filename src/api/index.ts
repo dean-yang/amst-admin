@@ -1,6 +1,4 @@
 const api = {
-
-    adress:'http://47.108.200.61:3000/admin', // ip地址
     login:'/login',
     // 一级分类
     getfirstClassification:'/firstClassification/get',
@@ -26,6 +24,13 @@ const api = {
     getcarefullyChosen:'/carefullyChosen/get',
     updatecarefullyChosen:'/carefullyChosen/update',
     deletecarefullyChosen:'/carefullyChosen/delete',
+
+
+    // 换季清洗
+    setchangeSeasonClean:'/changeSeasonClean/set',
+    getchangeSeasonClean:'/changeSeasonClean/get',
+    updatechangeSeasonClean:'/changeSeasonClean/update',
+    deletechangeSeasonClean:'/changeSeasonClean/delete',
 
 }
 export default api

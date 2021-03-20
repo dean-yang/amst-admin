@@ -139,7 +139,7 @@ class FirstClass extends Component<any,any> {
                     <Form.Item>
                     <Upload 
                             accept={'image/png, image/jpeg, image/jpg'}
-                            action={'http://47.108.200.61:3000/admin/uploadImg/firstClassImages'}
+                            action={'http://47.108.200.61:3000/admin/uploadImg'}
                             name="file"
                             method={'post'}
                             onChange={(info:any)=>{
