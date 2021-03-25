@@ -10,6 +10,8 @@ function SecondsPro() {
     const [type,setType] = useState(false)
     const [firstClass,setFirstClass] = useState([])
     const [dataSouce,setDataSouce] = useState([])
+    const [pageNo,setPageNo] = useState(0)
+    const [pageSize,setPageSize] = useState(10)
     useEffect(() => {
         getfirstClassification()
         getsecondClassification()
@@ -20,7 +22,7 @@ function SecondsPro() {
         })
     }
     const getsecondClassification = ()=>{
-        fetch.post(api.getsecondClassification,{}).then((res:any)=>{
+        fetch.post(api.getsecondClassification,{pageNo,pageSize}).then((res:any)=>{
             setDataSouce(res.data)
         }) 
     }
