@@ -16,7 +16,7 @@ function SecondsPro() {
     }, [])
     const getsecondClassification = ()=>{
         fetch.post(api.getsecondClassification,{}).then((res:any)=>{
-            setFirstClass(res.data)
+            setFirstClass(res.data.list)
         })
     }
     const getchangeSeasonClean = ()=>{

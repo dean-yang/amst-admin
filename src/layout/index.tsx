@@ -33,7 +33,7 @@ class AmstLayout extends React.Component <any,any>{
     }else{
       return (
         <Layout className={`amst-layout`}>
-          <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+          <Sider trigger={null} collapsible collapsed={this.state.collapsed} style={{height:"100%"}}>
             <div className="logo" />
             <Menu theme="dark" mode="inline" defaultSelectedKeys={[this.props.location.pathname]} onSelect={(item)=>{
               
@@ -65,6 +65,7 @@ class AmstLayout extends React.Component <any,any>{
                 margin: '24px 16px',
                 padding: 24,
                 minHeight: 280,
+                overflow:"auto"
               }}
             >
               {

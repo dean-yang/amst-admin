@@ -1,4 +1,4 @@
-import {Form,Table,Input,Button,Image,Modal,Select,Upload, message} from 'antd'
+import {Form,Table,Input,Button,Image,Modal,Select,Upload, message,Pagination} from 'antd'
 import {useState,useEffect} from 'react'
 import fetch from '../../services/axios'
 import api from '../../api'
@@ -10,21 +10,25 @@ function CatefullyChosen() {
     const [type,setType] = useState(false)
     const [secondsPro,setSecondsPro] = useState([])
     const [dataSouce,setDataSouce] = useState([])
+    const [pageNo,setPageNo] = useState(1)
+    const [pageSize,setPageSize] = useState(5)
+    const [total,setTotal] = useState(0)
     useEffect(() => {
-        getcarefullyChosen()
         getsecondClassification()
     }, [])
     const getsecondClassification = ()=>{
         fetch.post(api.getsecondClassification,{}).then((res:any)=>{
-            console.log(res.data)
-            setSecondsPro(res.data)
+            setSecondsPro(res.data.list)
         })
     }
-    const getcarefullyChosen = ()=>{
-        fetch.post(api.getcarefullyChosen,{}).then((res:any)=>{
-            setDataSouce(res.data)
+    const getcarefullyChosen =useEffect( ()=>{
+        fetch.post(api.getcarefullyChosen,{pageNo,pageSize}).then((res:any)=>{
+            setDataSouce(res.data.list)
+            setTotal(res.data.total)
+            setPageNo(res.data.pageNo)
+            setPageSize(res.data.pageSize)
         }) 
-    }
+    },[pageNo,pageSize,visible])
     const columns = [
         {
             title:"关联二级分类id",
@@ -71,20 +75,17 @@ function CatefullyChosen() {
     const  clickHandleDelete = (record:any)=>{
         fetch.post(api.deletecarefullyChosen,record).then(()=>{
             message.success('删除成功')
-            getcarefullyChosen()
         })
     }
     const onFinish = (value:any) => {
         if(type){
             console.log(value)
             fetch.post(api.updatecarefullyChosen,value).then(()=>{
-                getcarefullyChosen()
                 message.success('修改成功')
                 setVisible(false)
             })
         }else{
             fetch.post(api.setcarefullyChosen,value).then(() => {
-                getcarefullyChosen()
                 message.success('插入成功')
                 setVisible(false)
             })
@@ -97,6 +98,11 @@ function CatefullyChosen() {
                     setType(false)
                 }} >添加</Button>
             <Table columns={columns} dataSource={dataSouce} rowKey={`carefullyChosen_id`}/>
+            <Pagination  current={pageNo} pageSize={pageSize} total={total} onChange={(pageNo:number)=>{
+                setPageNo(pageNo)
+                setPageSize(pageSize)
+
+            }}/>
             <Modal
                 visible={visible}
                 title={`${type ? '修改精选' : '添加精选'}`}

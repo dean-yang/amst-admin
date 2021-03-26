@@ -1,7 +1,8 @@
-import {Form,Table,Input,Button,Image,Modal,Select,Upload, message} from 'antd'
-import {useState,useEffect} from 'react'
+import {Form,Table,Input,Button,Image,Modal,Select,Upload, message,Pagination} from 'antd'
+import {useState,useEffect,useCallback} from 'react'
 import fetch from '../../services/axios'
 import api from '../../api'
+import { versions } from 'node:process';
 
 
 function SecondsPro() {
@@ -10,22 +11,25 @@ function SecondsPro() {
     const [type,setType] = useState(false)
     const [firstClass,setFirstClass] = useState([])
     const [dataSouce,setDataSouce] = useState([])
-    const [pageNo,setPageNo] = useState(0)
-    const [pageSize,setPageSize] = useState(10)
+    const [pageNo,setPageNo] = useState(1)
+    const [pageSize,setPageSize] = useState(5)
+    const [total,setTotal] = useState(0)
     useEffect(() => {
         getfirstClassification()
-        getsecondClassification()
     }, [])
     const getfirstClassification = ()=>{
         fetch.post(api.getfirstClassification,{}).then((res:any)=>{
             setFirstClass(res.data)
         })
     }
-    const getsecondClassification = ()=>{
+    const getsecondClassification = useEffect(()=>{
         fetch.post(api.getsecondClassification,{pageNo,pageSize}).then((res:any)=>{
-            setDataSouce(res.data)
+            setDataSouce(res.data.list)
+            setTotal(res.data.total)
+            setPageNo(res.data.pageNo)
+            setPageSize(res.data.pageSize)
         }) 
-    }
+    },[pageNo,pageSize,visible])
     const columns = [
         {
             title:"关联一级分类id",
@@ -66,19 +70,19 @@ function SecondsPro() {
     const  clickHandleDelete = (record:any)=>{
         fetch.post(api.deletesecondClassification,record).then(()=>{
             message.success('删除成功')
-            getsecondClassification()
+            // getsecondClassification()
         })
     }
     const onFinish = (value:any) => {
         if(type){
             fetch.post(api.updatesecondClassification,value).then(()=>{
-                getsecondClassification()
+                // getsecondClassification()
                 message.success('修改成功')
                 setVisible(false)
             })
         }else{
             fetch.post(api.setsecondClassification,value).then(() => {
-                getsecondClassification()
+                // getsecondClassification()
                 message.success('插入成功')
                 setVisible(false)
             })
@@ -90,7 +94,12 @@ function SecondsPro() {
                     setVisible(true)
                     setType(false)
                 }} >添加</Button>
-            <Table columns={columns} dataSource={dataSouce} rowKey={`second_classification_id`}/>
+            <Table columns={columns} dataSource={dataSouce} rowKey={`second_classification_id`} pagination={false}/>
+            <Pagination  current={pageNo} pageSize={pageSize} total={total} onChange={(pageNo:number)=>{
+                setPageNo(pageNo)
+                setPageSize(pageSize)
+
+            }}/>
             <Modal
                 visible={visible}
                 title={`${type ? '修改产品' : '添加产品'}`}
